@@ -1,24 +1,23 @@
-#!/usr/bin/env groovy
 @Library('jenkins-shared-library')_
 pipeline {
     agent {
-        label 'vm-agent' // Use the label you assigned to the agent
+        label 'slave1' 
     }
     environment {
         GITHUB_CRED_ID = "GitHub"
         GITHUB_REPO_URL = 'https://github.com/IbrahimAdell/App2.git'
         GITHUB_REPO_BRANCH = 'main'
-        DOCKER_REGISTRY = "ibrahimadel10"
+        DOCKER_REGISTRY = "hadeeralaa542"
         DOCKER_IMAGE = "app2"
-        DOCKERHUB_CRED_ID = "DockerHub"
-        K8S_CRED_ID = 'kubeconfig'  
-        DEPLOYMENT = 'deployment.yaml'
+        DOCKERHUB_CRED_ID = "dockerHub"
+        K8S_CRED_ID = 'kubeconfig'   //ch
+        DEPLOYMENT = 'deployment.yaml' //ch
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: GITHUB_CRED_ID, url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH
+                git credentialsId: GITHUB_CRED_ID, url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH    //check right or no 
             }
         }
 

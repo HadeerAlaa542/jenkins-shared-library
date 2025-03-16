@@ -5,13 +5,13 @@ pipeline {
         label 'slave1' 
     }
     environment {
-        GITHUB_REPO_URL = 'https://github.com/IbrahimAdell/App2.git'
+        GITHUB_REPO_URL = 'https://github.com/IbrahimAdell/App3.git'
         GITHUB_REPO_BRANCH = 'main'
         DOCKER_REGISTRY = "hadeeralaa542"
-        DOCKER_IMAGE = "app2"
+        DOCKER_IMAGE = "app3"
         DOCKERHUB_CRED_ID = "dockerHub"
-        K8S_CRED_ID = 'kubeconfig'   //ch
-        DEPLOYMENT = 'deployment.yaml' //ch
+        K8S_CRED_ID = 'kube'   
+        DEPLOYMENT = 'deployment.yaml' 
     }
 
     stages {
@@ -24,7 +24,7 @@ pipeline {
         stage('Manage Docker Image') {
             steps {
                 script {
-                    BuildandPushDockerImage("${DOCKERHUB_CRED_ID}", "${DOCKER_REGISTRY}", "${DOCKER_IMAGE}")
+                    BuildandPushDockerimage("${DOCKERHUB_CRED_ID}", "${DOCKER_REGISTRY}", "${DOCKER_IMAGE}")
                 }
             }
         }

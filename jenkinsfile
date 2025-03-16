@@ -1,0 +1,51 @@
+#!/usr/bin/env groovy
+@Library('jenkins-shared-library')_
+pipeline {
+    agent {
+        label 'vm-agent' // Use the label you assigned to the agent
+    }
+    environment {
+        GITHUB_CRED_ID = "GitHub"
+        GITHUB_REPO_URL = 'https://github.com/IbrahimAdell/App2.git'
+        GITHUB_REPO_BRANCH = 'main'
+        DOCKER_REGISTRY = "ibrahimadel10"
+        DOCKER_IMAGE = "app2"
+        DOCKERHUB_CRED_ID = "DockerHub"
+        K8S_CRED_ID = 'kubeconfig'  
+        DEPLOYMENT = 'deployment.yaml'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git credentialsId: GITHUB_CRED_ID, url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH
+            }
+        }
+
+        stage('Manage Docker Image') {
+            steps {
+                script {
+                    BuildandPushDockerImage("${DOCKERHUB_CRED_ID}", "${DOCKER_REGISTRY}", "${DOCKER_IMAGE}")
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    DeployOnKubernetes("${K8S_CRED_ID}", "${DOCKER_REGISTRY}", "${DOCKER_IMAGE}", "${DEPLOYMENT}")
+                }
+            }
+        }
+        
+    }
+
+    post {
+        success {
+            echo "Deployment successful!"
+        }
+        failure {
+            echo "Build or deployment failed."
+        }
+    }
+}

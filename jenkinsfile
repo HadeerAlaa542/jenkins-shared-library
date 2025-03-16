@@ -5,7 +5,6 @@ pipeline {
         label 'slave1' 
     }
     environment {
-        GITHUB_CRED_ID = "GitHub"
         GITHUB_REPO_URL = 'https://github.com/IbrahimAdell/App2.git'
         GITHUB_REPO_BRANCH = 'main'
         DOCKER_REGISTRY = "hadeeralaa542"
@@ -18,7 +17,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: GITHUB_CRED_ID, url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH    //check right or no 
+                git url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH    
             }
         }
 
